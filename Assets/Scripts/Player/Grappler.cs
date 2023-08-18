@@ -1,21 +1,28 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Grappler : MonoBehaviour
 {
-    public Camera mainCamera;
-    public LineRenderer lineRenderer;
-    public DistanceJoint2D distanceJoint;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private DistanceJoint2D distanceJoint;
+    [SerializeField] private float grappleCooldown;
+
+    private bool canUseGrappler;
+    private Animator am;
+    private Rigidbody2D rb;
 
     void Start()
     {
+        canUseGrappler = true;
         distanceJoint.enabled = false;
+        am = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canUseGrappler)
         {
             Vector2 mousePos = (Vector2)mainCamera.ScreenToWorldPoint(Input.mousePosition);
             lineRenderer.SetPosition(0, mousePos);
@@ -23,6 +30,9 @@ public class Grappler : MonoBehaviour
             distanceJoint.connectedAnchor = mousePos;
             distanceJoint.enabled = true;
             lineRenderer.enabled = true;
+            canUseGrappler = false;
+
+           StartCoroutine(EnableGrapplerCooldown());
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0))
         {
@@ -33,5 +43,13 @@ public class Grappler : MonoBehaviour
         {
             lineRenderer.SetPosition(1, transform.position);
         }
+        print(rb.velocity.sqrMagnitude);
+        am.SetFloat("Speed", rb.velocity.sqrMagnitude);
+    }
+
+    IEnumerator EnableGrapplerCooldown()
+    {
+        yield return new WaitForSeconds(grappleCooldown);
+        canUseGrappler = true;
     }
 }
