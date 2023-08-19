@@ -43,7 +43,7 @@ public class Grappler : MonoBehaviour
         {
             lineRenderer.SetPosition(1, transform.position);
         }
-        print(rb.velocity.sqrMagnitude);
+
         am.SetFloat("Speed", rb.velocity.sqrMagnitude);
     }
 
