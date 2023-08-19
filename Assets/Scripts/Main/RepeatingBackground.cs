@@ -2,18 +2,20 @@ using UnityEngine;
 
 public class RepeatingBackground : MonoBehaviour
 {
-    public GameObject corridorPrefab;
-    public Transform playerTransform;
-    public float corridorWidth;
+    [SerializeField] private GameObject corridorPrefab;
+    [SerializeField] private GameObject[] coins;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private float corridorWidth;
 
     private float spawnX = -24f;
+    private int roomID;
 
     private void Start()
     {
         for (int i = 0; i < 2; i++)
         {
             GameObject corridorSection = Instantiate(corridorPrefab, transform);
-            corridorSection.transform.position = new Vector3(spawnX, 0f, 0f);
+            corridorSection.transform.position = new Vector3(spawnX, -0.79f, 0f);
 
             spawnX += corridorWidth;
         }
@@ -29,8 +31,14 @@ public class RepeatingBackground : MonoBehaviour
 
     private void SpawnCorridorSection()
     {
+        roomID++;
         GameObject corridorSection = Instantiate(corridorPrefab, transform);
-        corridorSection.transform.position = new Vector3(spawnX, 0f, 0f);
+        corridorSection.transform.position = new Vector3(spawnX, -0.79f, 0f);
+
+        if (roomID % 3 == 0)
+        {
+            Instantiate(coins[Random.Range(0, coins.Length)], corridorSection.transform.position, Quaternion.identity);
+        }
 
         spawnX += corridorWidth;
     }

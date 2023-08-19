@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Lava : MonoBehaviour
 {
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameMaster.Instance.Die(Mathf.Floor(GameObject.FindGameObjectWithTag("Player").transform.position.x));
+    }
 }

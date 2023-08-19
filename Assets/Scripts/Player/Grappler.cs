@@ -22,6 +22,8 @@ public class Grappler : MonoBehaviour
 
     void Update()
     {
+        if (GameMaster.Instance.isDead) { return; }
+
         if (Input.GetKeyDown(KeyCode.Mouse0) && canUseGrappler)
         {
             Vector2 mousePos = (Vector2)mainCamera.ScreenToWorldPoint(Input.mousePosition);

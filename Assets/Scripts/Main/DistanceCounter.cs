@@ -3,8 +3,18 @@ using UnityEngine;
 
 public class DistanceCounter : MonoBehaviour
 {
+    private string distance;
+
+    private void Start()
+    {
+        distance = Mathf.Floor(GameObject.FindGameObjectWithTag("Player").transform.position.x).ToString() + " m";
+        GetComponent<TMP_Text>().text = distance;
+    }
+
     void Update()
     {
-        GetComponent<TMP_Text>().text = Mathf.Floor(GameObject.FindGameObjectWithTag("Player").transform.position.x).ToString() + " m";
+        if (GameMaster.Instance.isDead) { return; }
+        distance = Mathf.Floor(GameObject.FindGameObjectWithTag("Player").transform.position.x).ToString() + " m";
+        GetComponent<TMP_Text>().text = distance;
     }
 }
