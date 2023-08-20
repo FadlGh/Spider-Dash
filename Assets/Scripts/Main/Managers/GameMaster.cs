@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameMaster : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        PlayerPrefs.SetFloat("Coins", 800f);
     }
 
     void Start()
@@ -36,12 +38,29 @@ public class GameMaster : MonoBehaviour
         }
 
         CoinsManager.Instance.EditCoins();
-        print(PlayerPrefs.GetFloat("Coins"));
 
         Time.timeScale = 0.1f;
         isDead = true;
 
         deathUI.SetActive(true);
+
+        if (PlayerPrefs.GetFloat("Coins") <= 50)
+        {
+            GameObject.FindGameObjectWithTag("Continue").SetActive(false);
+        }
+    }
+
+    public void Continue()
+    {
+        isDead = false;
+
+        GameObject.FindGameObjectWithTag("Player").transform.position = new Vector2(GameObject.FindGameObjectWithTag("Player").transform.position.x + 4f, 1.5f);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
+        deathUI.SetActive(false);
+
+        Time.timeScale = 1f;
+        PlayerPrefs.SetFloat("Coins", PlayerPrefs.GetFloat("Coins") - 50);
     }
 
     public void OpenScene(string sceneName)

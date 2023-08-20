@@ -5,6 +5,6 @@ public class HighScore : MonoBehaviour
 {
     void Start()
     {
-        GetComponent<TMP_Text>().text = PlayerPrefs.GetFloat("Coins").ToString();
+        GetComponent<TMP_Text>().text = PlayerPrefs.GetFloat("HighScore").ToString();
     }
 }
