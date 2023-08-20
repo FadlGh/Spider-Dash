@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Score
-  - GM
   layers:
   - Default
   - TransparentFX

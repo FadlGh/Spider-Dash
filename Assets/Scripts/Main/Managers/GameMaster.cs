@@ -25,7 +25,6 @@ public class GameMaster : MonoBehaviour
         Time.timeScale = 1f;
         deathUI.SetActive(false);
         isDead = false;
-        print(PlayerPrefs.GetFloat("HighScore"));
     }
 
     public void Die(float score)
@@ -35,6 +34,9 @@ public class GameMaster : MonoBehaviour
             PlayerPrefs.SetFloat("HighScore", score);
             PlayerPrefs.Save();
         }
+
+        CoinsManager.Instance.EditCoins();
+        print(PlayerPrefs.GetFloat("Coins"));
 
         Time.timeScale = 0.1f;
         isDead = true;

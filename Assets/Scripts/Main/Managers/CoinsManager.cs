@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CoinsManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static CoinsManager Instance;
+
+    void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EditCoins()
     {
-        
+        PlayerPrefs.SetFloat("Coins" , PlayerPrefs.GetFloat("Coins") + int.Parse(GetComponent<TMP_Text>().text));
     }
 }
