@@ -48,6 +48,10 @@ public class GameMaster : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("Continue").SetActive(false);
         }
+
+        AudioManager.instance.Play("Die");
+
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShaker>().ShakeIt();
     }
 
     public void Continue()

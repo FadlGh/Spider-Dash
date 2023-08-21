@@ -7,6 +7,7 @@ TagManager:
   - Score
   - GM
   - Continue
+  - AM
   layers:
   - Default
   - TransparentFX

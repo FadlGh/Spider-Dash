@@ -12,6 +12,8 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        AudioManager.instance.Play("Coin");
+
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShaker>().ShakeIt();
         int score = int.Parse(text.text);
         score++;
