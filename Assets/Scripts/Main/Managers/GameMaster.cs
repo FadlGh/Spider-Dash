@@ -52,6 +52,8 @@ public class GameMaster : MonoBehaviour
         AudioManager.instance.Play("Die");
 
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShaker>().ShakeIt();
+
+        Ads.Instance.LoadInterstitialAd();
     }
 
     public void Continue()
