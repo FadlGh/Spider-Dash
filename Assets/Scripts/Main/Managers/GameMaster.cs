@@ -1,6 +1,6 @@
+using GoogleMobileAds.Api;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameMaster : MonoBehaviour
 {
@@ -8,6 +8,8 @@ public class GameMaster : MonoBehaviour
 
     public static GameMaster Instance;
     public bool isDead;
+
+    private int deathCounter = 0;
 
     void Awake()
     {
@@ -19,7 +21,8 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        PlayerPrefs.SetFloat("Coins", 800f);
+        PlayerPrefs.DeleteAll();
+        deathCounter = PlayerPrefs.GetInt("DeathCounter");
     }
 
     void Start()
@@ -44,16 +47,9 @@ public class GameMaster : MonoBehaviour
 
         deathUI.SetActive(true);
 
-        if (PlayerPrefs.GetFloat("Coins") <= 50)
-        {
-            GameObject.FindGameObjectWithTag("Continue").SetActive(false);
-        }
-
         AudioManager.instance.Play("Die");
 
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShaker>().ShakeIt();
-
-        Ads.Instance.LoadInterstitialAd();
     }
 
     public void Continue()
@@ -66,7 +62,14 @@ public class GameMaster : MonoBehaviour
         deathUI.SetActive(false);
 
         Time.timeScale = 1f;
-        PlayerPrefs.SetFloat("Coins", PlayerPrefs.GetFloat("Coins") - 50);
+        if (PlayerPrefs.GetFloat("Coins") >= 50)
+        {
+            PlayerPrefs.SetFloat("Coins", PlayerPrefs.GetFloat("Coins") - 50);
+            return;
+        }
+
+        Ads.Instance.LoadInterstitialAd();
+        Ads.Instance.ShowAd();
     }
 
     public void OpenScene(string sceneName)
