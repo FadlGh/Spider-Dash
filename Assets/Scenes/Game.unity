@@ -1328,6 +1328,8 @@ MonoBehaviour:
   - {fileID: 2194072750510361270, guid: d1b90a873eff1b2439df2e76251f9864, type: 3}
   - {fileID: 926183793893309246, guid: cbef3ae81876fae46a0a898f0015ef2d, type: 3}
   - {fileID: 7531830381752700937, guid: 10ff30129652d244a88761221bc9a72d, type: 3}
+  - {fileID: 4825707172582035142, guid: e3e84e09c4a2d634cbf4b57dc4d90050, type: 3}
+  - {fileID: 4825707172582035142, guid: e3e84e09c4a2d634cbf4b57dc4d90050, type: 3}
   playerTransform: {fileID: 1284669064}
   corridorWidth: 30
 --- !u!4 &1001677387
@@ -2091,7 +2093,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: -7.99, y: -2.46}
   m_AutoConfigureDistance: 0
-  m_Distance: 5
+  m_Distance: 2
   m_MaxDistanceOnly: 1
 --- !u!50 &1284669066
 Rigidbody2D:
