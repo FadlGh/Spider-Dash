@@ -9,8 +9,6 @@ public class GameMaster : MonoBehaviour
     public static GameMaster Instance;
     public bool isDead;
 
-    private int deathCounter = 0;
-
     void Awake()
     {
         if (Instance == null)
@@ -21,8 +19,6 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        PlayerPrefs.DeleteAll();
-        deathCounter = PlayerPrefs.GetInt("DeathCounter");
     }
 
     void Start()
@@ -68,7 +64,7 @@ public class GameMaster : MonoBehaviour
             return;
         }
 
-        Ads.Instance.LoadInterstitialAd();
+        Ads.Instance.LoadRewardedAd();
         Ads.Instance.ShowAd();
     }
 

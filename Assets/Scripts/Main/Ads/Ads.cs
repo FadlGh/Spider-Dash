@@ -1,9 +1,12 @@
 using GoogleMobileAds.Api;
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Ads : MonoBehaviour
 {
     public static Ads Instance;
+    public TMPro.TMP_Text text; 
 
     void Awake()
     {
@@ -19,63 +22,64 @@ public class Ads : MonoBehaviour
 
     public void Start()
     {
-        MobileAds.RaiseAdEventsOnUnityMainThread = true;
-        MobileAds.Initialize(initStatus => { });
+        // Initialize the Google Mobile Ads SDK.
+        MobileAds.Initialize((InitializationStatus initStatus) =>
+        {
+            // This callback is called once the MobileAds SDK is initialized.
+        });
     }
+
     // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
-    private string _adUnitId = "ca-app-pub-8809019023559306~9330904657";
+    private string _adUnitId = "ca-app-pub-8809019023559306/9567460373";
 #endif
 
-    private InterstitialAd interstitialAd;
+    private RewardedAd rewardedAd;
 
-    /// <summary>
-    /// Loads the interstitial ad.
-    /// </summary>
-    public void LoadInterstitialAd()
+  /// <summary>
+  /// Loads the rewarded ad.
+  /// </summary>
+  public void LoadRewardedAd()
     {
         // Clean up the old ad before loading a new one.
-        if (interstitialAd != null)
+        if (rewardedAd != null)
         {
-            interstitialAd.Destroy();
-            interstitialAd = null;
+            rewardedAd.Destroy();
+            rewardedAd = null;
         }
 
-        Debug.Log("Loading the interstitial ad.");
+        text.text = "Loading the rewarded ad.";
 
         // create our request used to load the ad.
         var adRequest = new AdRequest();
         adRequest.Keywords.Add("unity-admob-sample");
 
         // send the request to load the ad.
-        InterstitialAd.Load(_adUnitId, adRequest,
-            (InterstitialAd ad, LoadAdError error) =>
+        RewardedAd.Load(_adUnitId, adRequest,
+            (RewardedAd ad, LoadAdError error) =>
             {
                 // if error is not null, the load request failed.
                 if (error != null || ad == null)
                 {
-                    Debug.LogError("interstitial ad failed to load an ad " +
-                                   "with error : " + error);
+                    text.text = "Rewarded ad failed to load an ad " +
+                                   "with error : " + error;
                     return;
                 }
 
-                Debug.Log("Interstitial ad loaded with response : "
-                          + ad.GetResponseInfo());
+                text.text = "Rewarded ad loaded with response : "
+                          + ad.GetResponseInfo();
 
-                interstitialAd = ad;
+                rewardedAd = ad;
             });
     }
 
     public void ShowAd()
     {
-        if (interstitialAd != null && interstitialAd.CanShowAd())
+        if (rewardedAd != null && rewardedAd.CanShowAd())
         {
-            Debug.Log("Showing interstitial ad.");
-            interstitialAd.Show();
-        }
-        else
-        {
-            Debug.LogError("Interstitial ad is not ready yet.");
+            rewardedAd.Show((Reward reward) =>
+            {
+            });
         }
     }
 }
