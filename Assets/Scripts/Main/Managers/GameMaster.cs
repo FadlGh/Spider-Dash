@@ -1,10 +1,11 @@
-using GoogleMobileAds.Api;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour
 {
     [SerializeField] private GameObject deathUI;
+    [SerializeField] private GameObject continueButton;
 
     public static GameMaster Instance;
     public bool isDead;
@@ -46,10 +47,14 @@ public class GameMaster : MonoBehaviour
         AudioManager.instance.Play("Die");
 
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShaker>().ShakeIt();
+
+        continueButton.SetActive(PlayerPrefs.GetFloat("Coins") >= 50 ? true : false);
     }
 
     public void Continue()
     {
+        PlayerPrefs.SetFloat("Coins", PlayerPrefs.GetFloat("Coins") - 50);
+
         isDead = false;
 
         GameObject.FindGameObjectWithTag("Player").transform.position = new Vector2(GameObject.FindGameObjectWithTag("Player").transform.position.x + 4f, 1.5f);
@@ -58,14 +63,6 @@ public class GameMaster : MonoBehaviour
         deathUI.SetActive(false);
 
         Time.timeScale = 1f;
-        if (PlayerPrefs.GetFloat("Coins") >= 50)
-        {
-            PlayerPrefs.SetFloat("Coins", PlayerPrefs.GetFloat("Coins") - 50);
-            return;
-        }
-
-        Ads.Instance.LoadRewardedAd();
-        Ads.Instance.ShowAd();
     }
 
     public void OpenScene(string sceneName)
